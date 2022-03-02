@@ -6,6 +6,7 @@ In one step, you can delete exactly one character in either string.
 Example 1:
 Input: word1 = "sea", word2 = "eat"
 Output: 2
+
 Explanation: You need one step to make "sea" to "ea" and another step to make "eat" to "ea".
 
 Example 2:
@@ -25,7 +26,6 @@ var minDistance = function (word1, word2) {
   for (let i = 0; i < table.length; i++) {
     table[i] = new Array(word2.length + 1).fill(0);
   }
-
   for (let i = 1; i < table.length; i++) {
     for (let j = 1; j < table[0].length; j++) {
       if (word1[i - 1] === word2[j - 1]) {
@@ -36,5 +36,5 @@ var minDistance = function (word1, word2) {
     }
   }
   let lcs = table[word1.length][word2.length];
-  return word1.length + word2.length - 2 * lcs;
+  return word1.length + word2.length - (2 * lcs);
 };
