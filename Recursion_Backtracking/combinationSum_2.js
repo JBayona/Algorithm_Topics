@@ -61,20 +61,23 @@ function helper(array, target, tmp, result, start) {
     
     // Recur for all remaining elements that have values
     // smaller than our targets
-    let prev = -1;
     for(let i = start; i < array.length; i++) {
-        if(prev !== array[i]) {
-            // Skip numbers that are greater than our target
-            if(target < array[i]) {
-                return;
-            }
-            tmp.push(array[i]);
-            // Cambiandolo i por start, te da todas las posibles combinaciones, permutando el número
-            // i.e [2,2,3], [3,2,2], [2,3,2], [7]
-            helper(array, target - array[i], tmp.concat(), result, i+1);
-            tmp.pop();
-            prev= array[i];
+        // Skip duplicates
+        // For example After sorting: [1, 1, 2] You could generate:
+        // [1,2] from the first 1 and [1,2] again from the second 1
+        // Without the if (i > start && ...) check, you'd add duplicate [1,2] to the result.
+        if (i > start && array[i] === array[i - 1]) {
+            continue;
         }
-        
+        // Skip numbers that are greater than our target
+        if(target < array[i]) {
+            return;
+        }
+        tmp.push(array[i]);
+        // Cambiandolo i por start, te da todas las posibles combinaciones, permutando el número
+        // i.e [2,2,3], [3,2,2], [2,3,2], [7]
+        // THE I + 1 IS GOING TO GIVE US UNIQUE COMBINATIONS
+        helper(array, target - array[i], tmp.concat(), result, i+1);
+        tmp.pop();
     }
 }
